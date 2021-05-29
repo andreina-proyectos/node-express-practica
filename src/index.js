@@ -75,7 +75,7 @@ function validateUser(newUser) {
   console.log(onlyCharRgx.test(nombre));
 
   if (!nombre) {
-    errorList.push('⚠ The field nombre must be present');
+    errorList.push(returnCommonError('nombre'));
   }
   if (nombre && nombre.length <= 3) {
     errorList.push('⚠ The field nombre must have more than 3 characters');
@@ -84,7 +84,7 @@ function validateUser(newUser) {
     errorList.push('⚠ The field nombre must not contain numbers');
   }
   if (!apellidos) {
-    errorList.push('⚠ The field apellidos must be present');
+    errorList.push(returnCommonError('apellidos'));
   }
   if (apellidos && apellidos.length <= 3) {
     errorList.push('⚠ The field apellidos must have more than 3 characters');
@@ -93,13 +93,13 @@ function validateUser(newUser) {
     errorList.push('⚠ The field apellidos must not contain numbers');
   }
   if (!edad) {
-    errorList.push('⚠ The field edad must be present');
+    errorList.push(returnCommonError('edad'));
   }
   if (!dni) {
-    errorList.push('⚠ The field dni must be present');
+    errorList.push(returnCommonError('dni'));
   }
   if (!cumpleanos) {
-    errorList.push('⚠ The field cumpleanos must be present');
+    errorList.push(returnCommonError('cumpleanos'));
   }
   if (edad < 0 || edad > 125) {
     errorList.push('⚠ Your age must be greater than 0 and less than 125');
@@ -109,7 +109,7 @@ function validateUser(newUser) {
   }
 
   if (!colorFavorito) {
-    errorList.push('⚠ The field colorFavorito must be present');
+    errorList.push(returnCommonError('colorFavorito'));
   }
   if (colorFavorito && colorFavorito.length <= 3) {
     errorList.push(
@@ -136,4 +136,8 @@ function validateUser(newUser) {
   }
 
   return errorList;
+}
+
+function returnCommonError(field) {
+  return `⚠ The field ${field} must be present`;
 }
