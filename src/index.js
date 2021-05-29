@@ -1,5 +1,6 @@
 ('use strict');
 const { v4: uuidv4, validate } = require('uuid');
+const moment = require('moment');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -63,7 +64,7 @@ app.post('/user', async (req, res) => {
 
 app.delete('/user/:id', async function (req, res) {
   const paramId = req.params.id;
-  const userToDelete = await User.findByIdAndDelete(paramId);
+  await User.findByIdAndDelete(paramId);
   res.json({ message: `User with id ${paramId} deleted! :O` });
 });
 
@@ -101,13 +102,22 @@ function validateUser(newUser) {
   if (!cumpleanos) {
     errorList.push(returnCommonError('cumpleanos'));
   }
+
+  if (
+    cumpleanos &&
+    !moment(cumpleanos, 'YYYY-M-DTH:m:s.SSSZ', true).isValid()
+  ) {
+    errorList.push(
+      '⚠ The field cumpleanos must have the ISO 8601 format. For example: YYYY-M-DTH:m:s.SSSZ'
+    );
+  }
+
   if (edad < 0 || edad > 125) {
     errorList.push('⚠ Your age must be greater than 0 and less than 125');
   }
   if (dni.length != 9) {
     errorList.push('⚠ Your DNI must have 9 char');
   }
-
   if (!colorFavorito) {
     errorList.push(returnCommonError('colorFavorito'));
   }
