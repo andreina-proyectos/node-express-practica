@@ -47,7 +47,6 @@ app.get('/users', async (req, res) => {
 app.post('/user', async (req, res) => {
   const newUser = new User(req.body);
   newUser._id = uuidv4();
-  console.log('newUser', newUser);
   const errorList = validateUser(newUser);
 
   if (errorList.length > 0) {
@@ -59,6 +58,32 @@ app.post('/user', async (req, res) => {
   } else {
     await newUser.save();
     res.json({ message: 'New user created :)', userData: newUser });
+  }
+});
+
+app.put('/user/:id', async (req, res) => {
+  const paramId = req.params.id;
+  const updates = req.body;
+  const newUser = new User(req.body);
+  const errorList = validateUser(newUser);
+
+  if (errorList.length > 0) {
+    res.status(400).send({
+      message:
+        '⚠ There is an error about user information to update. Please read the error list and check it',
+      errorList: errorList,
+    });
+  } else {
+    User.findOneAndUpdate({ _id: paramId }, updates, {
+      new: true,
+    })
+      .then((updatedUser) =>
+        res.status(200).send({
+          message: `User with the id ${paramId} was updated! :)`,
+          userData: updatedUser,
+        })
+      )
+      .catch((err) => res.status(400).json('Error: ' + err));
   }
 });
 
