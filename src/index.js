@@ -78,7 +78,7 @@ function validateUser(newUser) {
     errorList.push(returnCommonError('nombre'));
   }
   if (nombre && nombre.length <= 3) {
-    errorList.push('⚠ The field nombre must have more than 3 characters');
+    errorList.push(returnMoreThanThreeError('nombre'));
   }
   if (nombre && !onlyCharRgx.test(nombre)) {
     errorList.push('⚠ The field nombre must not contain numbers');
@@ -87,7 +87,7 @@ function validateUser(newUser) {
     errorList.push(returnCommonError('apellidos'));
   }
   if (apellidos && apellidos.length <= 3) {
-    errorList.push('⚠ The field apellidos must have more than 3 characters');
+    errorList.push(returnMoreThanThreeError('apellidos'));
   }
   if (apellidos && !onlyCharRgx.test(apellidos)) {
     errorList.push('⚠ The field apellidos must not contain numbers');
@@ -112,9 +112,7 @@ function validateUser(newUser) {
     errorList.push(returnCommonError('colorFavorito'));
   }
   if (colorFavorito && colorFavorito.length <= 3) {
-    errorList.push(
-      '⚠ The field colorFavorito must have more than 3 characters'
-    );
+    errorList.push(returnMoreThanThreeError('colorFavorito'));
   }
   if (colorFavorito && !onlyCharRgx.test(colorFavorito)) {
     errorList.push('⚠ The field apellidos must not contain numbers');
@@ -140,4 +138,8 @@ function validateUser(newUser) {
 
 function returnCommonError(field) {
   return `⚠ The field ${field} must be present`;
+}
+
+function returnMoreThanThreeError(field) {
+  return `⚠ The field ${field} must have more than 3 characters`;
 }
