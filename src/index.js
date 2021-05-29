@@ -43,7 +43,7 @@ app.get('/users', async (req, res) => {
   res.json(userList);
 });
 
-app.post('/new-user', async (req, res) => {
+app.post('/user', async (req, res) => {
   const newUser = new User(req.body);
   newUser._id = uuidv4();
   console.log('newUser', newUser);
@@ -72,7 +72,7 @@ function validateUser(newUser) {
   const { nombre, apellidos, edad, cumpleanos, dni, sexo, colorFavorito } =
     newUser;
   const onlyCharRgx = /^[a-zA-Z\s]*$/;
-  console.log(onlyCharRgx.test(nombre));
+  console.log(sexo);
 
   if (!nombre) {
     errorList.push(returnCommonError('nombre'));
@@ -126,7 +126,7 @@ function validateUser(newUser) {
     sexo &&
     genderOptions.filter(
       (gender) => gender.toUpperCase() === sexo.toUpperCase()
-    )
+    ).length == 0
   ) {
     errorList.push(
       '⚠ Your gender must be: hombre, mujer, otro, No especificado'
